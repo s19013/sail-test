@@ -26,5 +26,6 @@ Route::prefix('/task')->group(function () {
     Route::get('/edit', [TaskController::class, 'edit'])->name('task.edit');
     Route::put('/update', [TaskController::class, 'update'])->name('task.update');
     Route::delete('/done', [TaskController::class, 'done'])->name('task.done');
+    Route::delete('/', [TaskController::class, 'destroy'])->name('task.destroy');
 });
 
