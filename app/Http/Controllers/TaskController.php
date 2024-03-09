@@ -55,8 +55,17 @@ class TaskController extends Controller
         ]);
     }
 
-    function update() {
+    function update(Request $request) {
+        $attributes = $request->only(['task_name']);
+        try {
+            $this->taskRepository->update($request->id,$attributes);
+        } catch (\Throwable $th) {
+            // 何かエラー発生したらログを残してエラーがおきたことを伝える
+            \Log::error($th);
+            return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
+        }
 
+        return redirect()->route('task.index')->with('message', '編集できました。');
     }
 
     function done(Request $request) {
