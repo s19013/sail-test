@@ -51,4 +51,41 @@ class TaskTest extends TestCase {
         $this->assertEquals($tasks[0]->task_name,'not Delete');
 
     }
+
+    /** @test */
+    function searchIncompleteTask_単語1つ() : void {
+
+        $testcase = ['apple pie', 'apple tea','beryy pie'];
+
+        foreach ($testcase as  $value) {
+            $this->taskRepository->store([
+                "task_name" => $value
+            ]);
+        }
+
+        $tasks = $this->taskRepository->searchIncompleteTask([
+            'keyword' => 'apple'
+        ]);
+
+        $this->assertEquals(count($tasks),2);
+    }
+
+    /** @test */
+    function searchIncompleteTask_単語複数() : void {
+
+        $testcase = ['apple pie', 'apple tea','beryy pie'];
+
+        foreach ($testcase as  $value) {
+            $this->taskRepository->store([
+                "task_name" => $value
+            ]);
+        }
+
+        $tasks = $this->taskRepository->searchIncompleteTask([
+            'keyword' => 'apple pie'
+        ]);
+
+        $this->assertEquals(count($tasks),1);
+    }
+
 }
