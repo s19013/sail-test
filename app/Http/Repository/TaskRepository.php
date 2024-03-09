@@ -7,8 +7,8 @@ use App\Models\Task;
 
 class TaskRepository{
 
-    function store(Array $attributes) {
-        Task::create($attributes);
+    function store(Array $attributes) :object{
+        return Task::create($attributes);
     }
 
     function incompleteTask() : Collection {
