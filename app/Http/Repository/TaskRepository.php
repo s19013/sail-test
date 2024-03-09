@@ -11,6 +11,16 @@ class TaskRepository{
         return Task::create($attributes);
     }
 
+    function update(Int $id,Array $attributes)  {
+        Task::where('id','=',$id)
+        ->update($attributes);
+    }
+
+    // タスク完了(論理削除)
+    function done(Int $id)  {
+        Task::find($id)->delete();
+    }
+
     function incompleteTask() : Collection {
         return Task::where('deleted_at', null)->get();
     }
