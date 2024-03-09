@@ -21,6 +21,11 @@ class TaskRepository{
         Task::find($id)->delete();
     }
 
+    // 物理削除
+    function destory(Int $id)  {
+        Task::find($id)->forceDelete();
+    }
+
     function incompleteTask() : Collection {
         return Task::where('deleted_at', null)->get();
     }

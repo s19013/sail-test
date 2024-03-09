@@ -125,4 +125,15 @@ class TaskTest extends TestCase {
 
     }
 
+    /** @test */
+    function destroy() : void {
+        $task = $this->taskRepository->store([
+            "task_name" => "before"
+        ]);
+
+        $this->taskRepository->destory($task->id);
+
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+    }
+
 }
