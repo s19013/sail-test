@@ -88,4 +88,52 @@ class TaskTest extends TestCase {
         $this->assertEquals(count($tasks),1);
     }
 
+    /** @test */
+    function update() : void {
+        $task = $this->taskRepository->store([
+            "task_name" => "before"
+        ]);
+
+        $task->task_name = 'after';
+
+        $this->taskRepository->update(
+            id:$task->id,
+            attributes:['task_name' => $task->task_name]
+        );
+
+        $this->assertDatabaseHas('tasks',[
+            'id' => $task->id,
+            'task_name' => 'after'
+        ]);
+
+    }
+
+    /** @test */
+    function done() : void{
+        $task = $this->taskRepository->store([
+            "task_name" => "before"
+        ]);
+
+        $this->taskRepository->done($task->id);
+
+        $this->assertSoftDeleted(
+            table: 'tasks',
+            data: [
+                'id' => $task->id,
+            ],
+        );
+
+    }
+
+    /** @test */
+    function destroy() : void {
+        $task = $this->taskRepository->store([
+            "task_name" => "before"
+        ]);
+
+        $this->taskRepository->destroy($task->id);
+
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+    }
+
 }

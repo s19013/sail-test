@@ -9,7 +9,16 @@
 </head>
 
 <body>
-    update
+    <x-errorMessage :message="$errors" />
+    {{ Form::open(['method' => 'put', 'route' => ['task.update', 'id' => $task->id]]) }}
+    {{ Form::token() }}
+    {{ Form::textarea('task_name', old('task_name', $task->task_name), ['id' => 'lastName', 'placeholder' => 'タスク名', 'required' => 'required']) }}
+    {{ Form::submit('送信') }}
+    {{ Form::close() }}
+
+    {{ Form::open(['method' => 'delete', 'route' => ['task.destroy', 'id' => $task->id]]) }}
+    {{ Form::submit('削除') }}
+    {{ Form::close() }}
 </body>
 
 </html>

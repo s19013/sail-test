@@ -41,6 +41,7 @@ class TaskController extends Controller
             $this->taskRepository->store($attributes);
         } catch (\Throwable $th) {
             // 何かエラー発生したらログを残してエラーがおきたことを伝える
+            \Log::error($th);
             return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
         }
 
@@ -48,15 +49,45 @@ class TaskController extends Controller
 
     }
 
-    function edit() {
-        return view('task.edit');
+    function edit(Request $request) {
+        return view('task.edit')->with([
+            'task' => Task::find($request->id)
+        ]);
     }
 
-    function update() {
+    function update(Request $request) {
+        $attributes = $request->only(['task_name']);
+        try {
+            $this->taskRepository->update($request->id,$attributes);
+        } catch (\Throwable $th) {
+            // 何かエラー発生したらログを残してエラーがおきたことを伝える
+            \Log::error($th);
+            return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
+        }
 
+        return redirect()->route('task.index')->with('message', '編集できました。');
     }
 
-    function destroy() {
+    function done(Request $request) {
+        try {
+            $this->taskRepository->done($request->id);
+        } catch (\Throwable $th) {
+            \Log::error($th);
+            dd($th);
+            return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡']);
+        }
+        return redirect()->route('task.index')->with('message', '完了しました');
+    }
+
+    function destroy(Request $request) {
+        try {
+            $this->taskRepository->destroy($request->id);
+        } catch (\Throwable $th) {
+            \Log::error($th);
+            dd($th);
+            return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡']);
+        }
+        return redirect()->route('task.index')->with('message', '削除しました');
 
     }
 }
