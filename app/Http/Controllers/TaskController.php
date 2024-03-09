@@ -26,14 +26,14 @@ class TaskController extends Controller
 
     function store(CreateTaskRequest $request) {
         $attributes = $request->only(['task_name']);
-        $status = $this->taskRepository->store($attributes);
-
-        if ($status) {
-            return redirect()->route('task.index')->with('message', '登録できました。');
+        try {
+            $this->taskRepository->store($attributes);
+        } catch (\Throwable $th) {
+            // 何かエラー発生したらログを残してエラーがおきたことを伝える
+            return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
         }
 
-        // データベースでエラーがおきたことを伝える
-        return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
+        return redirect()->route('task.index')->with('message', '登録できました。');
 
     }
 
