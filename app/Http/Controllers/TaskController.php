@@ -13,8 +13,22 @@ class TaskController extends Controller
         $this->taskRepository = new TaskRepository();
     }
 
-    function index() {
-        return view('task.index');
+    function index(Request $request ) {
+        $tasks = null;
+        $attributes = $request->only(['keyword']);
+
+        // 初期状態､keywordがからの時
+        if (empty($attributes) || empty($attributes['keyword'])) {
+            $tasks = $this->taskRepository->incompleteTask();
+        }
+        else {
+            $tasks = $this->taskRepository->searchIncompleteTask($attributes);
+        }
+
+        return view('task.index')->with([
+            'tasks' =>$tasks
+        ]);
+
     }
 
     function create() {
@@ -23,14 +37,14 @@ class TaskController extends Controller
 
     function store(CreateTaskRequest $request) {
         $attributes = $request->only(['task_name']);
-        $status = $this->taskRepository->store($attributes);
-
-        if ($status) {
-            return redirect()->route('task.index')->with('message', '登録できました。');
+        try {
+            $this->taskRepository->store($attributes);
+        } catch (\Throwable $th) {
+            // 何かエラー発生したらログを残してエラーがおきたことを伝える
+            return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
         }
 
-        // データベースでエラーがおきたことを伝える
-        return redirect()->back()->withErrors(['message' => 'エラーが発生しました｡時間を置いて再度送信して下さい｡'])->withInput();
+        return redirect()->route('task.index')->with('message', '登録できました。');
 
     }
 

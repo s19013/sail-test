@@ -14,6 +14,18 @@
             {{ session('message') }}
         </div>
     @endif
+
+    <x-errorMessage :message="$errors" />
+    {{ Form::open(['method' => 'get', 'route' => 'task.index']) }}
+    {{ Form::text('keyword', old('keyword'), ['placeholder' => '検索']) }}
+    {{ Form::submit('送信') }}
+    {{ Form::close() }}
+
+    <ul>
+        @foreach ($tasks as $task)
+            <li>{{ $task->task_name }}</li>
+        @endforeach
+    </ul>
 </body>
 
 </html>
