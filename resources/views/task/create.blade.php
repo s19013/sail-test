@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <x-errorMessage :message="$errors" />
     {{ Form::open(['method' => 'post', 'route' => 'task.store']) }}
     {{ Form::token() }}
     {{ Form::textarea('task_name', old('task_name'), ['id' => 'lastName', 'placeholder' => 'タスク名', 'required' => 'required']) }}
