@@ -24,7 +24,7 @@ class TaskController extends Controller
     function store(CreateTaskRequest $request) {
         $attributes = $request->only(['task_name']);
         $this->taskRepository->store($attributes);
-        return redirect()->route('task.index');
+        return redirect()->route('task.index')->with('message', '登録できました。');
     }
 
     function edit() {

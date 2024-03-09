@@ -9,7 +9,11 @@
 </head>
 
 <body>
-    index
+    @if (session('message'))
+        <div>
+            {{ session('message') }}
+        </div>
+    @endif
 </body>
 
 </html>
