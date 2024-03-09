@@ -13,11 +13,13 @@ class TaskController extends Controller
         $this->taskRepository = new TaskRepository();
     }
 
-    function index() {
+    function index(Request $request ) {
+        if (count($request->query()) <= 0) {
+            return view('task.index')->with([
+                'tasks' => $this->taskRepository->incompleteTask()
+            ]);
+        }
 
-        return view('task.index')->with([
-            'tasks' => $this->taskRepository->incompleteTask()
-        ]);
     }
 
     function create() {
