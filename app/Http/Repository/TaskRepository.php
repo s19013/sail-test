@@ -22,7 +22,7 @@ class TaskRepository{
     }
 
     // 物理削除
-    function destory(Int $id)  {
+    function destroy(Int $id)  {
         Task::find($id)->forceDelete();
     }
 
