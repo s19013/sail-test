@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Repository;
+use Illuminate\Support\Facades\Log;
 use App\Models\Task;
 
 class TaskRepository{
@@ -8,7 +9,8 @@ class TaskRepository{
         try {
             Task::create($attributes);
         } catch (\Throwable $th) {
-            // 何かエラーが置きたらfalseを返す
+            // 何かエラー発生したらログを残してfalseを返す
+            Log::error($th);
             return false;
         }
         return true;
