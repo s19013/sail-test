@@ -33,4 +33,22 @@ class TaskTest extends TestCase {
 
         $this->assertDatabaseHas('tasks',$attributes);
     }
+
+    /** @test */
+    function incompleteTask() : void {
+        $this->taskRepository->store([
+            "task_name" => "not Delete"
+        ]);
+
+        $deleteTask = $this->taskRepository->store([
+            "task_name" => "delete"
+        ]);
+
+        $deleteTask->delete();
+
+        $tasks = $this->taskRepository->incompleteTask();
+
+        $this->assertEquals($tasks[0]->task_name,'not Delete');
+
+    }
 }
