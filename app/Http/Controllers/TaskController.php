@@ -14,11 +14,20 @@ class TaskController extends Controller
     }
 
     function index(Request $request ) {
-        if (count($request->query()) <= 0) {
-            return view('task.index')->with([
-                'tasks' => $this->taskRepository->incompleteTask()
-            ]);
+        $tasks = null;
+        $attributes = $request->only(['keyword']);
+
+        // 初期状態､keywordがからの時
+        if (empty($attributes) || empty($attributes['keyword'])) {
+            $tasks = $this->taskRepository->incompleteTask();
         }
+        else {
+            $tasks = $this->taskRepository->searchIncompleteTask($attributes);
+        }
+
+        return view('task.index')->with([
+            'tasks' =>$tasks
+        ]);
 
     }
 
