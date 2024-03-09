@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->longText('longText');
+            $table->longText('task_name');
             $table->softDeletes();
             $table->timestamps();
         });

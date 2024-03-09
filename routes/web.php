@@ -20,8 +20,9 @@ Route::get('/', function () {
 
 
 Route::prefix('/task')->group(function () {
-    Route::get('/', [TaskController::class, 'index']);
-    Route::get('/create', [TaskController::class, 'create']);
-    Route::get('/edit', [TaskController::class, 'edit']);
+    Route::get('/', [TaskController::class, 'index'])->name('task.index');
+    Route::get('/create', [TaskController::class, 'create'])->name('task.create');
+    Route::post('/store', [TaskController::class, 'store'])->name('task.store');
+    Route::get('/edit', [TaskController::class, 'edit'])->name('task.edit');
 });
 
