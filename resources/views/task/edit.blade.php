@@ -10,7 +10,7 @@
 
 <body>
     <x-errorMessage :message="$errors" />
-    {{ Form::open(['method' => 'post', 'route' => ['task.update', 'id' => $task->id]]) }}
+    {{ Form::open(['method' => 'put', 'route' => ['task.update', 'id' => $task->id]]) }}
     {{ Form::token() }}
     {{ Form::textarea('task_name', old('task_name', $task->task_name), ['id' => 'lastName', 'placeholder' => 'タスク名', 'required' => 'required']) }}
     {{ Form::submit('送信') }}
