@@ -131,7 +131,7 @@ class TaskTest extends TestCase {
             "task_name" => "before"
         ]);
 
-        $this->taskRepository->destory($task->id);
+        $this->taskRepository->destroy($task->id);
 
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
