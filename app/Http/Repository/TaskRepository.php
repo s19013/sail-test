@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Repository;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Collection;
 use App\Models\Task;
+
 
 class TaskRepository{
 
@@ -14,5 +16,9 @@ class TaskRepository{
             return false;
         }
         return true;
+    }
+
+    function incompleteTask() : Collection {
+        return Task::where('deleted_at', null)->get();
     }
 }

@@ -14,7 +14,10 @@ class TaskController extends Controller
     }
 
     function index() {
-        return view('task.index');
+
+        return view('task.index')->with([
+            'tasks' => $this->taskRepository->incompleteTask()
+        ]);
     }
 
     function create() {

@@ -14,6 +14,12 @@
             {{ session('message') }}
         </div>
     @endif
+
+    <ul>
+        @foreach ($tasks as $task)
+            <li>{{ $task->task_name }}</li>
+        @endforeach
+    </ul>
 </body>
 
 </html>
