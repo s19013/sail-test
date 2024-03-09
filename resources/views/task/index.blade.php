@@ -23,7 +23,9 @@
 
     <ul>
         @foreach ($tasks as $task)
-            <li>{{ $task->task_name }}</li>
+            <li>
+                <x-task :$task />
+            </li>
         @endforeach
     </ul>
 </body>
